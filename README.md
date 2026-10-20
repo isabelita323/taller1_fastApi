@@ -1,0 +1,1 @@
+estructura de carpetas, creacion del modelo, archivo requeriments.txt con dependecias iniciales. test de prueba para la conexion y controller
