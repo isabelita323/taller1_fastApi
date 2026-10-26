@@ -4,6 +4,7 @@ from src.models.models import TraineeModel, TraineeUpdateModel
 from fastapi import FastAPI, HTTPException, status
 
 #uvicorn src.main:app --reload
+#uvicorn src.main:app --host 0.0.0.0 --port $PORT
 app = FastAPI(title = "Gestion de bases de datos de los aprendices", description = "API simple con FastAPI para consumir los datos de los aprendices", version = "1.0.0",)
 
 #Mensaje de bienvenida

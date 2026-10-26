@@ -1,7 +1,7 @@
 #Librerias
 fastapi
 pydantic
-uvicorn
+uvicorn 
 httpx
 pymongo
 email-validator

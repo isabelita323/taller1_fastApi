@@ -11,9 +11,9 @@ class TraineeModel(BaseModel):
     record_number: int
 
 class TraineeUpdateModel(BaseModel):
-    firstname: Optional[str] = None
+    firsname: Optional[str] = None
     lastname: Optional[str] = None
     email: Optional[EmailStr] = None
     age: Optional[int] = None
-    program: Optional[str] = None
+    program: Optional[int] = None
     record_number: Optional[int] = None

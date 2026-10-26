@@ -1,17 +1,21 @@
-import os
-from pymongo import MongoClient
+from pymongo import  MongoClient
 from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
 
-# Permite configurar la conexión por variable de entorno y usa una base local por defecto.
-MONGO_URL =  os.getenv("MONGO_URL", "mongodb://localhost:27017")
+#Agregar la URI de conexion a tu base de MOngoDB
+MONGO_URL = "mongodb+srv://isabellazambranomartinez_db_user:<db_password>@cluster0.7quvkxo.mongodb.net/"
 
-client = MongoClient(MONGO_URL, serverSelectionTimeoutMS=3000)
-db = client.get_database("data_ap")
+#Crear una instancia del cliente de MongoDB y asignar un tiempo de espera para la seleccion de servidor 
+client = client = MongoClient(MONGO_URL, ServerSelectionTimeoutMS = 3000)
+
+#Crear la base de datos y la coleccion
+db = client.data_ap
 collection = db.trainee
 
-try:
+try: 
+    #Intentar obtener informacion del servidor para verificar la conexion
+    client.server_info()
     client.admin.command("ping")
     print("Conexion exitosa a MongoDB")
-except (ConnectionFailure, ServerSelectionTimeoutError) as e:
-    print(f"Advertencia: no se pudo conectar a MongoDB: {e}")
-    print("Asegurate de tener MongoDB corriendo o configurar MONGO_URL")
+except(ConnectionFailure, ServerSelectionTimeoutError) as e:
+    print("Error al conectar a MongoDB: {e}")
+    

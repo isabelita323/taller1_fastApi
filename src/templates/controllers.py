@@ -2,9 +2,9 @@ from bson import ObjectId
 from src.models.database import collection
 from src.models.models import TraineeModel, TraineeUpdateModel
 
-
 def helper_trainee(trainee) -> dict:
-    return {
+    return{ 
+        
         "id": str(trainee["_id"]),
         "document": str(trainee["document"]),
         "firstname": trainee["firstname"],
@@ -12,61 +12,52 @@ def helper_trainee(trainee) -> dict:
         "email": trainee["email"],
         "age": trainee["age"],
         "program": trainee["program"],
-        "record_number": trainee["record_number"],
-    }
+        "record_number": trainee["record_number"]
+   }
 
-
-# Funcion de crear datos de un aprendiz
+#Funcion de crear datos de un aprendiz
 def create_trainee(trainee: TraineeModel):
-    trainee_dict = trainee.model_dump()
+    trainee_dict = trainee.model_dump() #es un metodo que me permite  a mi sanitizar
     result = collection.insert_one(trainee_dict)
     new_trainee = collection.find_one({"_id": result.inserted_id})
     return helper_trainee(new_trainee)
 
 
-# Obtener todos los aprendices
+#Obtener todos los aprendices
 def get_all_trainees():
     trainees = []
-    for trainee in collection.find():
-        trainees.append(helper_trainee(trainee))
+    for trainees in collection.find():
+        trainees.append(helper_trainee(trainees))
     return trainees
 
 
-# Obtener datos del aprendiz por ID
+#Obtener datos del parendiz por ID
 def get_trainee_by_id(id: str):
-    try:
-        trainee = collection.find_one({"_id": ObjectId(id)})
-    except Exception:
-        return None
+    trainee = collection.find_one({"_id": ObjectId(id)})
     if trainee:
         return helper_trainee(trainee)
     return None
 
-
-# Actualizar datos del aprendiz
+#Actualizar datos del aprendiz
 def update_trainee(id: str, data: TraineeUpdateModel):
-    data_update = {k: v for k, v in data.model_dump().items() if v is not None}
+    data_update = {
+        k: v for k, v in data.model_dump().items() if v is not None
+    }
     if data_update:
-        try:
-            object_id = ObjectId(id)
-        except Exception:
-            return None
-        collection.update_one({"_id": object_id}, {"$set": data_update})
-        trainee_updated = collection.find_one({"_id": object_id})
-        if trainee_updated:
-            return helper_trainee(trainee_updated)
+        collection.update_one({"_id": ObjectId(id)}, {"$set": data_update})
+        trainee_updated = collection.find_one({"_id": ObjectId(id)})
+        return helper_trainee(trainee_updated) 
     return None
 
-
-# Eliminar aprendiz
+#ELiminar aprendiz
 def delete_trainee(id: str):
-    try:
-        object_id = ObjectId(id)
-    except Exception:
-        return False
-    trainee = collection.find_one({"_id": object_id})
+    trainee = collection.find_one({"_id": ObjectId(id)})
     if trainee:
-        collection.delete_one({"_id": object_id})
+        collection.delete_one({"_id": ObjectId(id)})
         return True
     return False
+
+
+
+
 
